@@ -6,45 +6,52 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:08:20 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/23 19:45:38 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/24 15:22:03 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char static	*read_line(int fd, char *s);
+
 char	*get_next_line(int fd)
 {
-	ssize_t			bytes_read;
-	char			*ptr_eol;
-	static char		*buff = NULL;
-	static size_t	pos = 0;
-	static char		*res;
-	char			*tmp;
-	char			*tmp2;
+	return (read_line(fd, ""));
+}
 
-	if (!buff)
-		(char *)ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	buff[BUFFER_SIZE] = '\0';
-	if (pos == 0)
+char static	*read_line(int fd, char *s)
+{
+	static char	buff[BUFFER_SIZE + 1];
+	char		*tmp;
+	char		*res;
+	char		*ptr_eol;
+
+	if (ft_strlen(buff) == 0)
 	{
-		bytes_read = read(fd, buff, BUFFER_SIZE);
-		if (bytes_read == 0 || bytes_read == -1)
-			return (NULL);
-	}
-	ptr_eol = ft_strchr(buff + pos, '\n');
-	if (ptr_eol)
-	{
-		pos += ptr_eol - (buff + pos);
-		if (!tmp)
-			return (ft_substr(buff, pos, ptr_eol - (buff + pos)));
-		else
+		if (read(fd, buff, BUFFER_SIZE) <= 0)
 		{
-			res = (char *)ft_calloc(ft_strlen(res) + ptr_eol - (buff + pos) + 1, sizeof(char));
-			ft_strlcpy(res, tmp, ft_strlen(tmp) + 1);
-			ft_strlcat(res, buff + pos, ft_strlen(res) + ptr_eol - (buff + pos) + 1);
-			return (tmp2);
+			if (ft_strlen(buff) == 0 && ft_strlen(s) == 0)
+				return (NULL);
+			res = ft_strjoin(s, buff);
+			return (res);
 		}
 	}
+	ptr_eol = ft_strchr(buff, '\n');
+	if (!ptr_eol)
+	{
+		tmp = ft_strjoin(s, buff);
+		ft_bzero(buff, BUFFER_SIZE + 1);
+		res = read_line(fd, tmp);
+		free(tmp);
+		return (res);
+	}
 	else
-	return (res);
+	{
+		tmp = ft_substr(buff, 0, ptr_eol - buff + 1);
+		ft_memcpy(buff, ptr_eol + 1, ft_strlen(buff) + 1 - (ptr_eol - buff));
+		ft_bzero(buff + ft_strlen(buff), BUFFER_SIZE - ft_strlen(buff));
+		res = ft_strjoin(s, tmp);
+		free(tmp);
+		return (res);
+	}
 }
