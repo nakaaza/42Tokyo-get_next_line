@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:10:44 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/24 15:12:23 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/24 16:14:18 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,6 @@ char	*ft_strchr(const char *s, int c)
 	if ((char) c == '\0')
 		return ((char *) s);
 	return (NULL);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*res;
-	size_t	n;
-	int		l;
-
-	if (!s)
-		return (NULL);
-	n = ft_strlen(s);
-	if (n <= start)
-		l = 0;
-	else if (n - start > len)
-		l = len;
-	else
-		l = n - start;
-	res = (char *)malloc((l + 1) * (int) sizeof(char));
-	if (res == NULL)
-		return (NULL);
-	res[l] = '\0';
-	while (0 <= --l)
-		res[l] = s[start + l];
-	return (res);
 }
 
 size_t	ft_strlen(const char *s)
