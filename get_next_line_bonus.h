@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nakaaza <nakaaza@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:08:57 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/25 11:02:18 by nakaaza          ###   ########.fr       */
+/*   Updated: 2024/06/25 16:16:55 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef struct s_buff
 	char	buff[BUFFER_SIZE + 1];
 }				t_buff;
 
-// get_next_line.c
+// get_next_line_bonus.c
 char	*get_next_line(int fd);
 
-// get_next_line_utils.c
+// get_next_line_utils_bonus.c
 void	ft_bzero(void *s, size_t n);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
