@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:08:20 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/25 16:16:50 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/27 20:08:28 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char	*ft_read_line(int fd, char *buff, char *s);
 char	*ft_get_line(int fd, char *buff, char *s);
+void	ft_memshift(char *buff, size_t shift);
 
 char	*get_next_line(int fd)
 {
@@ -35,7 +36,7 @@ char	*ft_read_line(int fd, char *buff, char *s)
 		bytes_read = read(fd, buff, BUFFER_SIZE);
 		if (bytes_read == 0)
 		{
-			if (ft_strlen(buff) == 0 && ft_strlen(s) == 0)
+			if (!buff || !s || (ft_strlen(buff) == 0 && ft_strlen(s) == 0))
 				return (NULL);
 			return (ft_strjoin(s, buff));
 		}
@@ -58,18 +59,27 @@ char	*ft_get_line(int fd, char *buff, char *s)
 	if (!eol)
 	{
 		tmp = ft_strjoin(s, buff);
+		if (!tmp)
+			return (NULL);
 		ft_bzero(buff, BUFFER_SIZE + 1);
 		res = ft_read_line(fd, buff, tmp);
 	}
 	else
 	{
 		tmp = (char *)malloc((eol - buff + 2) * sizeof(char));
+		if (!tmp)
+			return (NULL);
 		ft_memcpy(tmp, buff, eol - buff + 1);
 		tmp[eol - buff + 1] = '\0';
-		ft_memcpy(buff, eol + 1, ft_strlen(buff) - (eol - buff));
-		ft_bzero(buff + ft_strlen(buff), BUFFER_SIZE - ft_strlen(buff));
+		ft_memshift(buff, eol - buff + 1);
 		res = ft_strjoin(s, tmp);
 	}
 	free(tmp);
 	return (res);
+}
+
+void	ft_memshift(char *buff, size_t shift)
+{
+	ft_memcpy(buff, buff + shift, ft_strlen(buff) - shift + 1);
+	ft_bzero(buff + ft_strlen(buff), BUFFER_SIZE - ft_strlen(buff));
 }

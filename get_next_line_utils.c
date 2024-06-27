@@ -6,7 +6,7 @@
 /*   By: tnakaza <tnakaza@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 16:10:44 by tnakaza           #+#    #+#             */
-/*   Updated: 2024/06/24 16:14:18 by tnakaza          ###   ########.fr       */
+/*   Updated: 2024/06/27 19:07:20 by tnakaza          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
 	res = (char *)malloc((l1 + l2 + 1) * (int)(sizeof(char)));
-	if (res == NULL)
+	if (!res)
 		return (NULL);
 	ft_memcpy(res, s1, l1);
 	ft_memcpy(res + l1, s2, l2);
